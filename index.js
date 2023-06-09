@@ -25,12 +25,26 @@ async function run() {
     await client.connect();
 
     const classCollection = client.db("sportsCamp").collection("classes");
+    const userCollection = client.db("sportsCamp").collection("users");
 
     app.get("/classes", async (req, res) => {
       const result = await classCollection
         .find()
         .sort({ students: -1 })
         .toArray();
+      res.send(result);
+    });
+
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const query = { email: user.email };
+      const existingUser = await userCollection.findOne(query);
+
+      if (existingUser) {
+        return res.send({ message: "user already exists" });
+      }
+
+      const result = await userCollection.insertOne(user);
       res.send(result);
     });
 
