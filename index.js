@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const classCollection = client.db("sportsCamp").collection("classes");
 
@@ -83,20 +83,6 @@ async function run() {
       const result = await classCollection.updateOne(filter, updateDoc);
       res.send(result);
     });
-
-    // app.patch("/classes/admin/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   console.log(id);
-    //   const filter = { _id: new ObjectId(id) };
-    //   const updateDoc = {
-    //     $set: {
-    //       role: "admin",
-    //     },
-    //   };
-
-    //   const result = await classCollection.updateOne(filter, updateDoc);
-    //   res.send(result);
-    // });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
