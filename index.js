@@ -53,6 +53,11 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/classes/role/:id", async (req, res) => {
+      const result = await classCollection.find().toArray();
+      res.send(result);
+    });
+
     app.patch("/classes/admin/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
