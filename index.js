@@ -25,7 +25,7 @@ async function run() {
     await client.connect();
 
     const classCollection = client.db("sportsCamp").collection("classes");
-    const userCollection = client.db("sportsCamp").collection("users");
+    // const userCollection = client.db("sportsCamp").collection("users");
 
     app.get("/classes", async (req, res) => {
       const result = await classCollection
@@ -35,25 +35,25 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/users", async (req, res) => {
-      const result = await userCollection.find().toArray();
-      res.send(result);
-    });
+    // app.get("/users", async (req, res) => {
+    //   const result = await userCollection.find().toArray();
+    //   res.send(result);
+    // });
 
-    app.post("/users", async (req, res) => {
+    app.post("/classes", async (req, res) => {
       const user = req.body;
       const query = { email: user.email };
-      const existingUser = await userCollection.findOne(query);
+      const existingUser = await classCollection.findOne(query);
 
       if (existingUser) {
         return res.send({ message: "user already exists" });
       }
 
-      const result = await userCollection.insertOne(user);
+      const result = await classCollection.insertOne(user);
       res.send(result);
     });
 
-    app.patch("/users/admin/:id", async (req, res) => {
+    app.patch("/classes/admin/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
       const filter = { _id: new ObjectId(id) };
@@ -63,7 +63,7 @@ async function run() {
         },
       };
 
-      const result = await userCollection.updateOne(filter, updateDoc);
+      const result = await classCollection.updateOne(filter, updateDoc);
       res.send(result);
     });
 
